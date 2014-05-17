@@ -13,6 +13,10 @@ public class DatastoreImpl implements Datastore{
 
 	private static PersistenceManager pm;
 
+	/*
+		Call this API to create a new question
+		It accepts a question object as a parameter.
+	*/
 	@Override
 	public boolean addQuestion(Question question) {
 		pm = PMF.get().getPersistenceManager();
@@ -21,6 +25,10 @@ public class DatastoreImpl implements Datastore{
 		return true;
 	}
 
+	/*
+		Call this API to get a question, you pass a date and it
+		will return a Question that is withing 15 minutes of the date.
+	*/
 	@Override
 	public Question getQuestion(Date date) {
 		pm = PMF.get().getPersistenceManager();
@@ -38,6 +46,9 @@ public class DatastoreImpl implements Datastore{
 		return question;
 	}
 
+	/*
+		Used to update an existing question.
+	*/
 	@Override
 	public boolean modifyQuestion(Long qId, Question question) {
 		pm = PMF.get().getPersistenceManager();
