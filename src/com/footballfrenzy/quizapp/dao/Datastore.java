@@ -5,6 +5,10 @@ import java.util.List;
 
 import com.footballfrenzy.quizapp.dataobjects.Question;
 
+/*
+    This is the interface that exposes the methods that the datastore provides
+	Any class that wants to access the data store must implement this.
+*/
 public interface Datastore {
 	
 	public boolean addQuestion(Question question);
