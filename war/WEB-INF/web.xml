@@ -4,6 +4,10 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+    <!-- This is the way a servlet has to be declared, the servlet name is just a place holder -->
+	<!-- The servlet mapping maps the name to a URL -->
+	<!-- For each new servlet you will have to make a servlet and a mapping declaration, keep the mappings unique -->
 	<servlet>
 		<servlet-name>FIFAWcQA</servlet-name>
 		<servlet-class>com.footbalfrenzy.quizapp.FIFAWcQAServlet</servlet-class>
