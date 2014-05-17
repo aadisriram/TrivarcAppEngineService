@@ -8,6 +8,15 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+
+/*
+    This is the question object, the same question object has to be available to the
+	Front end as well, so that they can encode to json and send the data through HTTP requests.
+	
+	PersistanceCapable basically says that the class is to stored in the datastore
+	Every class member that has a @Persistent annotation basically dentoes if that class item
+	would be persisted or not.
+*/
 @PersistenceCapable
 public class Question {
 	
