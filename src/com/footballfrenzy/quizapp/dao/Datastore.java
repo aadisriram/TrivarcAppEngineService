@@ -1,7 +1,6 @@
 package com.footballfrenzy.quizapp.dao;
 
 import java.util.Date;
-import java.util.List;
 
 import com.footballfrenzy.quizapp.dataobjects.Question;
 

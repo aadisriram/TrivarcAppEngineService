@@ -1,0 +1,295 @@
+!SESSION 2014-05-17 13:54:34.157 -----------------------------------------------
+eclipse.buildId=v21.0.1-543035
+java.version=1.6.0_65
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product -keyring /Users/aadityasriram/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product com.android.ide.eclipse.adt.package.product -keyring /Users/aadityasriram/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2014-05-17 13:55:18.720
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2014-05-17 13:57:07.953
+!MESSAGE Connection to https://download.newrelic.com/android_agent/eclipse/p2.index failed on download.newrelic.com. Retry attempt 0 started
+!STACK 0
+java.net.UnknownHostException: download.newrelic.com
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:223)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:431)
+	at java.net.Socket.connect(Socket.java:527)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:570)
+	at org.eclipse.ecf.provider.filetransfer.events.socket.SocketEventCreateUtil.createSocket(SocketEventCreateUtil.java:43)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:81)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:73)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:65)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.open(MultiThreadedHttpConnectionManager.java:1361)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1129)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:699)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:879)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:570)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.sendRetrieveRequest(FileReader.java:422)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.readInto(FileReader.java:355)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:101)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:156)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadIndexFile(AbstractRepositoryManager.java:721)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:640)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.doLoad(LoadMetadataRepositoryJob.java:117)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.runModal(LoadMetadataRepositoryJob.java:102)
+	at org.eclipse.equinox.internal.p2.ui.sdk.PreloadingRepositoryHandler$2.runModal(PreloadingRepositoryHandler.java:83)
+	at org.eclipse.equinox.p2.operations.ProvisioningJob.run(ProvisioningJob.java:177)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.osgi 2 1 2014-05-17 13:57:08.231
+!MESSAGE NLS unused message: CacheManager_CannotLoadNonUrlLocation in: org.eclipse.equinox.internal.p2.repository.messages
+
+!ENTRY org.eclipse.equinox.p2.core 4 0 2014-05-17 13:57:08.236
+!MESSAGE Provisioning exception
+!STACK 1
+org.eclipse.equinox.p2.core.ProvisionException: Unknown Host: https://download.newrelic.com/android_agent/eclipse/content.xml
+	at org.eclipse.equinox.internal.p2.repository.CacheManager.createCache(CacheManager.java:192)
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.getLocalFile(SimpleMetadataRepositoryFactory.java:66)
+	at org.eclipse.equinox.internal.p2.metadata.repository.SimpleMetadataRepositoryFactory.load(SimpleMetadataRepositoryFactory.java:88)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:758)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:651)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.doLoad(LoadMetadataRepositoryJob.java:117)
+	at org.eclipse.equinox.p2.ui.LoadMetadataRepositoryJob.runModal(LoadMetadataRepositoryJob.java:102)
+	at org.eclipse.equinox.internal.p2.ui.sdk.PreloadingRepositoryHandler$2.runModal(PreloadingRepositoryHandler.java:83)
+	at org.eclipse.equinox.p2.operations.ProvisioningJob.run(ProvisioningJob.java:177)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+Caused by: java.net.UnknownHostException: download.newrelic.com
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:223)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:431)
+	at java.net.Socket.connect(Socket.java:527)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:570)
+	at org.eclipse.ecf.provider.filetransfer.events.socket.SocketEventCreateUtil.createSocket(SocketEventCreateUtil.java:43)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:81)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:73)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:65)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.open(MultiThreadedHttpConnectionManager.java:1361)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientFileSystemBrowser.runRequest(HttpClientFileSystemBrowser.java:232)
+	at org.eclipse.ecf.provider.filetransfer.browse.AbstractFileSystemBrowser$DirectoryJob.run(AbstractFileSystemBrowser.java:69)
+	... 1 more
+!SUBENTRY 1 org.eclipse.equinox.p2.transport.ecf 4 1006 2014-05-17 13:57:08.262
+!MESSAGE Unknown Host: https://download.newrelic.com/android_agent/eclipse/content.xml
+!STACK 0
+java.net.UnknownHostException: download.newrelic.com
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:223)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:431)
+	at java.net.Socket.connect(Socket.java:527)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:570)
+	at org.eclipse.ecf.provider.filetransfer.events.socket.SocketEventCreateUtil.createSocket(SocketEventCreateUtil.java:43)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:81)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:73)
+	at org.eclipse.ecf.internal.provider.filetransfer.httpclient.ECFHttpClientProtocolSocketFactory.createSocket(ECFHttpClientProtocolSocketFactory.java:65)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.open(MultiThreadedHttpConnectionManager.java:1361)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientFileSystemBrowser.runRequest(HttpClientFileSystemBrowser.java:232)
+	at org.eclipse.ecf.provider.filetransfer.browse.AbstractFileSystemBrowser$DirectoryJob.run(AbstractFileSystemBrowser.java:69)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SESSION 2014-05-17 13:57:48.786 -----------------------------------------------
+eclipse.buildId=v21.0.1-543035
+java.version=1.6.0_65
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product -keyring /Users/aadityasriram/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product com.android.ide.eclipse.adt.package.product -keyring /Users/aadityasriram/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2014-05-17 13:58:10.868
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 13:59:20.694
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2014-05-17 13:59:20.694
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.694
+!MESSAGE "Android DDMS" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.694
+!MESSAGE "Android Development Tools" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.694
+!MESSAGE "Android Hierarchy Viewer" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.694
+!MESSAGE "Android Traceview" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.694
+!MESSAGE "Tracer for OpenGL ES" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:20.694
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.694
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.694
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.5.1.v201312301723-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:20.694
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.694
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.694
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.5.1.v201312301723-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 13:59:20.709
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2014-05-17 13:59:20.709
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.709
+!MESSAGE "Android DDMS" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.709
+!MESSAGE "Android Development Tools" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.710
+!MESSAGE "Android Hierarchy Viewer" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.710
+!MESSAGE "Android Traceview" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:20.710
+!MESSAGE "Tracer for OpenGL ES" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:20.710
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.710
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.710
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.5.1.v201312301723-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:20.710
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.710
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:20.710
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.5.1.v201312301723-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 13:59:38.119
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2014-05-17 13:59:38.119
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.120
+!MESSAGE "Android DDMS" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.120
+!MESSAGE "Android Development Tools" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.120
+!MESSAGE "Android Hierarchy Viewer" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.120
+!MESSAGE "Android Traceview" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.120
+!MESSAGE "Tracer for OpenGL ES" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:38.120
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:38.120
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:38.120
+!MESSAGE Missing requirement: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43) requires 'org.eclipse.core.runtime 3.9.0' but it could not be found
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 13:59:38.128
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2014-05-17 13:59:38.128
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.128
+!MESSAGE "Android DDMS" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.128
+!MESSAGE "Android Development Tools" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.128
+!MESSAGE "Android Hierarchy Viewer" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.128
+!MESSAGE "Android Traceview" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:38.128
+!MESSAGE "Tracer for OpenGL ES" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:38.128
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:38.128
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:38.129
+!MESSAGE Missing requirement: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43) requires 'org.eclipse.core.runtime 3.9.0' but it could not be found
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 13:59:55.106
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2014-05-17 13:59:55.106
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.106
+!MESSAGE "Android DDMS" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.106
+!MESSAGE "Android Development Tools" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.107
+!MESSAGE "Android Hierarchy Viewer" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.107
+!MESSAGE "Android Traceview" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.107
+!MESSAGE "Tracer for OpenGL ES" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:55.107
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.107
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.107
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.5.1.v201312301723-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:55.107
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.107
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.107
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.5.1.v201312301723-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 13:59:55.113
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2014-05-17 13:59:55.113
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.114
+!MESSAGE "Android DDMS" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.114
+!MESSAGE "Android Development Tools" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.114
+!MESSAGE "Android Hierarchy Viewer" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.114
+!MESSAGE "Android Traceview" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2014-05-17 13:59:55.114
+!MESSAGE "Tracer for OpenGL ES" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:55.114
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.114
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.114
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.5.1.v201312301723-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2014-05-17 13:59:55.114
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.114
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2014-05-17 13:59:55.114
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.5.1.v201312301723-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 14:00:08.347
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 14:00:08.348
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 14:00:08.348
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 14:00:08.348
+!MESSAGE Missing requirement: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43) requires 'org.eclipse.core.runtime 3.9.0' but it could not be found
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2014-05-17 14:00:08.360
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2014-05-17 14:00:08.360
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 14:00:08.360
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2014-05-17 14:00:08.360
+!MESSAGE Missing requirement: Google Plugin for Eclipse 4.3 3.5.1.v201312301723-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.5.1.v201312301723-rel-r43) requires 'org.eclipse.core.runtime 3.9.0' but it could not be found
+!SESSION 2014-05-17 14:06:48.759 -----------------------------------------------
+eclipse.buildId=v21.0.1-543035
+java.version=1.6.0_65
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product -keyring /Users/aadityasriram/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product com.android.ide.eclipse.adt.package.product -keyring /Users/aadityasriram/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2014-05-17 14:07:07.315
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
