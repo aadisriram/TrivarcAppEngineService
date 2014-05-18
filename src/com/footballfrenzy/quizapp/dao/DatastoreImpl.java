@@ -3,6 +3,7 @@ package com.footballfrenzy.quizapp.dao;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -40,10 +41,13 @@ public class DatastoreImpl implements Datastore{
 	    
 	    limitLower = cal.getTime();
 	    
-	    Query query = pm.newQuery(Question.class, " questionDate >= :1 ");
-	    Question question = (Question) query.execute(limitLower);
+	    Query query = pm.newQuery(Question.class, "questionDate >= :dateLower && questionDate <= :dateUpper");
+	    List<Question> question = (List<Question>) query.execute(limitLower, date);
 	    
-		return question;
+	    if(question.isEmpty())
+	    	return null;
+	    else
+	    	return question.get(0);
 	}
 
 	/*

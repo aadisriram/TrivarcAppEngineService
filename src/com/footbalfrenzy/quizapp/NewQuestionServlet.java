@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 public class NewQuestionServlet extends HttpServlet {
 	
 	// Expects a HTTP Post request
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/plain");
 		Gson gson = new Gson();

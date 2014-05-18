@@ -16,6 +16,25 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>FIFAWcQA</servlet-name>
 		<url-pattern>/fifawcqa</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>NewQuestion</servlet-name>
+		<servlet-class>com.footbalfrenzy.quizapp.NewQuestionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NewQuestion</servlet-name>
+		<url-pattern>/add</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetQuestion</servlet-name>
+		<servlet-class>com.footbalfrenzy.quizapp.GetQuestionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetQuestion</servlet-name>
+		<url-pattern>/get</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
