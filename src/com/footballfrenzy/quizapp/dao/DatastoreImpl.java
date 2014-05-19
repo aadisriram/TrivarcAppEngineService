@@ -9,6 +9,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.footballfrenzy.quizapp.dataobjects.Question;
+import com.footballfrenzy.quizapp.dataobjects.User;
 
 public class DatastoreImpl implements Datastore{
 
@@ -70,7 +71,115 @@ public class DatastoreImpl implements Datastore{
 
 	@Override
 	public boolean deleteQuestion(Long qId) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean addUser(User user) {
+		try {
+			pm = PMF.get().getPersistenceManager();
+			pm.makePersistent(user);
+			pm.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public boolean modifyUserData(String userEmailId, String Name) {
+
+		String filter="eMailId=="+"'"+userEmailId+"'";
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class);
+			query.setFilter(filter);
+			User result = (User) query.execute();
+			result.setName(Name);
+			pm.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public boolean deleteUser(String userEmailId) {
+		String filter="eMailId=="+"'"+userEmailId+"'";
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class);
+			query.setFilter(filter);
+			query.deletePersistentAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public User getUserData(String userEmailId) {
+		String filter="eMailId=="+"'"+userEmailId+"'";
+		User result;
+		try {
+			pm = PMF.get().getPersistenceManager();	    
+		    Query query = pm.newQuery(User.class);
+		    query.setFilter(filter);
+		    result = (User) query.execute();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean addtoQuestionsAnswered(String userEmailId, Long qId) {
+		String filter="eMailId=="+"'"+userEmailId+"'";
+		boolean isSuccess=false;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class);
+			query.setFilter(filter);
+			User result = (User) query.execute();
+			isSuccess=result.addtoQuestionsAnswered(qId);
+			pm.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+			
+		return isSuccess;
+	}
+
+	@Override
+	public boolean isQuestionAlreadyAnswered(String userEmailId, Long qId) {
+		String filter="eMailId=="+"'"+userEmailId+"'";
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class);
+			query.setFilter(filter);
+			User result = (User) query.execute();
+			List<Long> answeredQuestionIds=result.getAnsweredQuestionIds();
+			if(answeredQuestionIds.contains(qId))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+
 	}
 }
