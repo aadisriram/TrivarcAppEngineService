@@ -27,36 +27,35 @@ public class User {
 	
 	@PrimaryKey
 	@Persistent
-	private String eMailId;
+	private String userId;
 	
 	@Persistent
-	private String Name;
+	private String name;
 	
 	@Persistent
 	private List<Long> answeredQuestionIds=new ArrayList<Long>();
 
-	public User(String eMailId,
-			String Name) {
+	public User(String userId,String Name) {
 		super();
-		this.seteMailId(eMailId);
+		this.setUserId(userId);
 		this.setName(Name);
 		
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public String geteMailId() {
-		return eMailId;
+		return userId;
 	}
 
-	public void seteMailId(String eMailId) {
-		this.eMailId = eMailId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	

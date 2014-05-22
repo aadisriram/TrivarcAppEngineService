@@ -17,14 +17,14 @@ public class CheckIsQuestionAnsweredServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/plain");
-		String emailId=req.getParameter("emailId");
-		String questionId = req.getParameter("questionId");
+		String userId=req.getParameter("UID");
+		String questionId = req.getParameter("QID");
 		Datastore datastore = new DatastoreImpl();
 		boolean isAnswered=false;
 		if(questionId != null && !questionId.equals(""))
 		{ 
 		  long qId = Long.parseLong((questionId));
-		  isAnswered= datastore.isQuestionAlreadyAnswered(emailId, qId);
+		  isAnswered= datastore.isQuestionAlreadyAnswered(userId, qId);
 		}  		
 		String Success=isAnswered?"Question Answered":"Question Not Answered";
 		resp.getWriter().println(Success);

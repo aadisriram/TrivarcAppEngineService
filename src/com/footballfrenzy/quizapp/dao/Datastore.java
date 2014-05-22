@@ -15,21 +15,23 @@ public interface Datastore {
 	
 	public Question getQuestion(Date date);
 	
+	public Question getQuestion(Long qId);
+	
 	public boolean modifyQuestion(Long qId, Question question);
 	
 	public boolean deleteQuestion(Long qId);
 	
 	public boolean addUser(User user);
 	
-	public boolean modifyUserData(String eMailId, String Name);
+	public boolean modifyUserData(String userId, String Name);
 	
-	public boolean deleteUser(String emailId);
+	public boolean deleteUser(String userId);
 	
-	public User getUserData(String emailId);
+	public User getUserData(String userId);
 	
-	public boolean addtoQuestionsAnswered(String emailId, Long qId);
+	public boolean addtoQuestionsAnswered(String userId, Long qId);
 	
-	public boolean isQuestionAlreadyAnswered(String emailId, Long qId);
+	public boolean isQuestionAlreadyAnswered(String userId, Long qId);
 	
 	
 	

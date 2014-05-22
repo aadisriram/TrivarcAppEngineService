@@ -17,10 +17,10 @@ public class DeleteUserServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/plain");
-		String emailId = req.getParameter("emailId");
+		String userId = req.getParameter("UID");
 	
 		Datastore datastore = new DatastoreImpl();
-		boolean isSuccess = datastore.deleteUser(emailId);
+		boolean isSuccess = datastore.deleteUser(userId);
 		String success=isSuccess?"User Data deleted":" Unable to Delete User Data";
 		resp.getWriter().println(success);
 	}

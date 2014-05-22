@@ -17,14 +17,14 @@ public class QuestionIsAnsweredServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/plain");
-		String emailId=req.getParameter("emailId");
-		String questionId = req.getParameter("questionId");
+		String userId=req.getParameter("UID");
+		String questionId = req.getParameter("QID");
 		Datastore datastore = new DatastoreImpl();
 		boolean isSuccess=false;
 		if(questionId != null && !questionId.equals(""))
 		{ 
 		  long qId = Long.parseLong((questionId));
-		  isSuccess= datastore.addtoQuestionsAnswered(emailId, qId);
+		  isSuccess= datastore.addtoQuestionsAnswered(userId, qId);
 		}  		
 		String Success=isSuccess?"Question Added to user History":"Failed to add question to user History";
 		resp.getWriter().println(Success);

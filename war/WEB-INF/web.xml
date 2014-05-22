@@ -19,7 +19,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	
 	<servlet>
 		<servlet-name>NewQuestion</servlet-name>
-		<servlet-class>com.footbalfrenzy.quizapp.NewQuestionServlet</servlet-class>
+		<servlet-class>com.footballfrenzy.quizapp.questionservlets.NewQuestionServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>NewQuestion</servlet-name>
@@ -28,11 +28,74 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	
 	<servlet>
 		<servlet-name>GetQuestion</servlet-name>
-		<servlet-class>com.footbalfrenzy.quizapp.GetQuestionServlet</servlet-class>
+		<servlet-class>com.footballfrenzy.quizapp.questionservlets.GetQuestionServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetQuestion</servlet-name>
 		<url-pattern>/get</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetQuestionFromID</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.questionservlets.GetQuestionFromIdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetQuestionFromID</servlet-name>
+		<url-pattern>/get</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetUser</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.userservlets.GetUserDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetUser</servlet-name>
+		<url-pattern>/get</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DeleteUser</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.userservlets.DeleteUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteUser</servlet-name>
+		<url-pattern>/delete</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>NewUser</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.userservlets.NewUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NewUser</servlet-name>
+		<url-pattern>/add</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ModifyUser</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.userservlets.ModifyUserDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ModifyUser</servlet-name>
+		<url-pattern>/modify</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AddQuestionToUser</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.userservlets.QuestionIsAnsweredServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddQuestionToUser</servlet-name>
+		<url-pattern>/add</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CheckQuestionForUser</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.userservlets.CheckIsQuestionAnsweredServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CheckQuestionForUser</servlet-name>
+		<url-pattern>/check</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

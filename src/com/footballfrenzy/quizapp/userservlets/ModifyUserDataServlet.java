@@ -17,11 +17,11 @@ public class ModifyUserDataServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/plain");
-		String emailId = req.getParameter("emailId");
+		String userId = req.getParameter("UID");
 		String name = req.getParameter("newName");
 	
 		Datastore datastore = new DatastoreImpl();
-		boolean isSuccess = datastore.modifyUserData(emailId, name);
+		boolean isSuccess = datastore.modifyUserData(userId, name);
 		String success=isSuccess?"User Data Modified":" Unable to Modify User Data";
 		resp.getWriter().println(success);
 	}

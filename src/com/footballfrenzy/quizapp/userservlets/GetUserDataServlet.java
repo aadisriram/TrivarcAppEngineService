@@ -23,10 +23,10 @@ public class GetUserDataServlet extends HttpServlet{
 			throws ServletException, IOException {
 		resp.setContentType("text/json");
 		Gson gson = new Gson();
-		String emailId = req.getParameter("emailId");
+		String userId = req.getParameter("UID");
 	
 		Datastore datastore = new DatastoreImpl();
-		User user = datastore.getUserData(emailId);
+		User user = datastore.getUserData(userId);
 		
 		resp.getWriter().println(gson.toJson(user));
 	}
