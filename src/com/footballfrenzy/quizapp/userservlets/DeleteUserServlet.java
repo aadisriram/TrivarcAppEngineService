@@ -21,7 +21,7 @@ public class DeleteUserServlet extends HttpServlet{
 	
 		Datastore datastore = new DatastoreImpl();
 		boolean isSuccess = datastore.deleteUser(userId);
-		String success=isSuccess?"User Data deleted":" Unable to Delete User Data";
+		String success=isSuccess?"Deleted":"Fail";
 		resp.getWriter().println(success);
 	}
 }

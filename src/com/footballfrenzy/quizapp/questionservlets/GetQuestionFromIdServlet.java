@@ -1,7 +1,6 @@
 package com.footballfrenzy.quizapp.questionservlets;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +27,6 @@ public class GetQuestionFromIdServlet {
 		if(question!=null)
 			resp.getWriter().println(gson.toJson(question));
 		else
-			resp.getWriter().println("Question for this ID not found");
+			resp.getWriter().println("Fail");
 	}
 }

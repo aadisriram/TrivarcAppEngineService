@@ -26,7 +26,7 @@ public class CheckIsQuestionAnsweredServlet extends HttpServlet{
 		  long qId = Long.parseLong((questionId));
 		  isAnswered= datastore.isQuestionAlreadyAnswered(userId, qId);
 		}  		
-		String Success=isAnswered?"Question Answered":"Question Not Answered";
+		String Success=isAnswered?"Success":"Fail";
 		resp.getWriter().println(Success);
 	}
 }

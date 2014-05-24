@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.footballfrenzy.quizapp.dao.Datastore;
 import com.footballfrenzy.quizapp.dao.DatastoreImpl;
+import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 
 @SuppressWarnings("serial")
 public class QuestionIsAnsweredServlet extends HttpServlet {
@@ -19,14 +20,18 @@ public class QuestionIsAnsweredServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		String userId=req.getParameter("UID");
 		String questionId = req.getParameter("QID");
+		String answer = req.getParameter("AID");
+		String timeTaken = req.getParameter("TimeTaken");
 		Datastore datastore = new DatastoreImpl();
 		boolean isSuccess=false;
-		if(questionId != null && !questionId.equals(""))
+		if(questionId != null && !questionId.equals("") && timeTaken != null && !timeTaken.equals("")  )
 		{ 
 		  long qId = Long.parseLong((questionId));
-		  isSuccess= datastore.addtoQuestionsAnswered(userId, qId);
+		  long time = Long.parseLong((questionId));
+		  QuestionAttempt attempt= new QuestionAttempt(qId, answer, time);
+		  isSuccess= datastore.addUserActivity(userId,attempt);
 		}  		
-		String Success=isSuccess?"Question Added to user History":"Failed to add question to user History";
+		String Success=isSuccess?"Success":"Fail";
 		resp.getWriter().println(Success);
 	}
 }

@@ -22,7 +22,7 @@ public class ModifyUserDataServlet extends HttpServlet {
 	
 		Datastore datastore = new DatastoreImpl();
 		boolean isSuccess = datastore.modifyUserData(userId, name);
-		String success=isSuccess?"User Data Modified":" Unable to Modify User Data";
+		String success=isSuccess?"Success":"Fail";
 		resp.getWriter().println(success);
 	}
 

@@ -11,6 +11,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.footballfrenzy.quizapp.dataobjects.Question;
+import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 import com.footballfrenzy.quizapp.dataobjects.User;
 
 public class DatastoreImpl implements Datastore {
@@ -162,24 +163,6 @@ public class DatastoreImpl implements Datastore {
 		return result;
 	}
 
-	@Override
-	public boolean addtoQuestionsAnswered(String userId, Long qId) {
-		String filter = "userId==" + "'" + userId + "'";
-		boolean isSuccess = false;
-		try {
-			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(User.class);
-			query.setFilter(filter);
-			User result = (User) query.execute();
-			isSuccess = result.addtoQuestionsAnswered(qId);
-			pm.close();
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, e.getMessage());
-			return false;
-		}
-
-		return isSuccess;
-	}
 
 	@Override
 	public boolean isQuestionAlreadyAnswered(String userId, Long qId) {
@@ -189,16 +172,86 @@ public class DatastoreImpl implements Datastore {
 			Query query = pm.newQuery(User.class);
 			query.setFilter(filter);
 			User result = (User) query.execute();
-			List<Long> answeredQuestionIds = result.getAnsweredQuestionIds();
-			if (answeredQuestionIds != null	&& answeredQuestionIds.contains(qId)) {
-				return true;
-			} else {
-				return false;
-			}
+			List<QuestionAttempt> userActivity=result.getUserActivity();
+			if(userActivity!=null)
+			{
+				for(int i=0;i<userActivity.size();i++)
+				{
+					if (userActivity.get(i) != null	) {
+						QuestionAttempt attempt=userActivity.get(i);
+						if(attempt.getQuestionId()==qId){
+							return true;							
+						}			
+					}
+				}				
+			}		
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
 		}
+		return false;
+	}
 
+	@Override
+	public boolean doesUserExist(String userId) {
+		String filter = "userId==" + "'" + userId + "'";
+		User result = null;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class);
+			query.setFilter(filter);
+			result = (User) query.execute();
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		}
+		if (result == null) {
+			// user doesn't exist in DB, Hence we will add him now
+			User newUser = new User(userId, "Unknown Football freak"); // TODO :need to get name also so that i can add to DB																	
+			addUser(newUser);
+			return false;
+		} else 
+			// result is not null hence user already exists
+			return true;
+	}
+	
+	
+	@Override
+	public boolean addUserActivity(String userId, QuestionAttempt attempt) {
+		String filter = "userId==" + "'" + userId + "'";
+		User result=null;
+		boolean hasAttempted=false;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class);
+			query.setFilter(filter);
+			result = (User) query.execute();
+			List<QuestionAttempt> userActivity=result.getUserActivity();
+			if(userActivity!=null)
+			{
+				for(int i=0;i<userActivity.size();i++)
+				{
+					if (userActivity.get(i) != null	) {
+						QuestionAttempt DBAttempt=userActivity.get(i);
+						if(DBAttempt.getQuestionId()==attempt.getQuestionId()){
+							hasAttempted=true;
+							break;
+						}			
+					}
+				}
+				
+			}			
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		}
+		
+		if(!hasAttempted){
+			if(result!=null){
+				return result.addUserActivity(attempt);	
+			}
+			return false;
+		}
+		else{
+			return false;
+		}
 	}
 }
