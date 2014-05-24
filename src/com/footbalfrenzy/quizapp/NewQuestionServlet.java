@@ -1,6 +1,7 @@
 package com.footbalfrenzy.quizapp;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +26,9 @@ public class NewQuestionServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		Gson gson = new Gson();
 		String questionJson = req.getParameter("question");
+		String dateMS = req.getParameter("date");
 		Question question = gson.fromJson(questionJson, Question.class);
-		
+		question.setQuestionDate(new Date(Long.parseLong(dateMS)));
 		Datastore datastore = new DatastoreImpl();
 		datastore.addQuestion(question);
 		

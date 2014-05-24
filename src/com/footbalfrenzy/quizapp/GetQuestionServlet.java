@@ -21,11 +21,15 @@ public class GetQuestionServlet extends HttpServlet {
 		resp.setContentType("text/json");
 		Gson gson = new Gson();
 		String dateString = req.getParameter("date");
-		Date date = new Date(dateString);
+		String clientOrigin = req.getHeader("origin");
+		Date date = new Date(Long.parseLong(dateString));
 	
 		Datastore datastore = new DatastoreImpl();
 		Question question = datastore.getQuestion(date);
-		
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println(gson.toJson(question));
 	}
 

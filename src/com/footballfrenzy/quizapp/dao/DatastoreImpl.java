@@ -10,6 +10,11 @@ import javax.jdo.Query;
 
 import com.footballfrenzy.quizapp.dataobjects.Question;
 
+/*
+ * This is the data store class which interacts with the 
+ * persistence manager. The persistence manager does not
+ * depend on the data objects or the schema.
+ */
 public class DatastoreImpl implements Datastore{
 
 	private static PersistenceManager pm;
