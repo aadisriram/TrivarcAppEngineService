@@ -19,10 +19,16 @@ public class ModifyUserDataServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		String userId = req.getParameter("UID");
 		String name = req.getParameter("newName");
-	
+		String clientOrigin = req.getHeader("origin");
+
 		Datastore datastore = new DatastoreImpl();
 		boolean isSuccess = datastore.modifyUserData(userId, name);
 		String success=isSuccess?"Success":"Fail";
+		
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println(success);
 	}
 

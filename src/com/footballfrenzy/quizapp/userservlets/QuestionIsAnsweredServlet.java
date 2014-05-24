@@ -22,6 +22,8 @@ public class QuestionIsAnsweredServlet extends HttpServlet {
 		String questionId = req.getParameter("QID");
 		String answer = req.getParameter("AID");
 		String timeTaken = req.getParameter("TimeTaken");
+		String clientOrigin = req.getHeader("origin");
+
 		Datastore datastore = new DatastoreImpl();
 		boolean isSuccess=false;
 		if(questionId != null && !questionId.equals("") && timeTaken != null && !timeTaken.equals("")  )
@@ -32,6 +34,11 @@ public class QuestionIsAnsweredServlet extends HttpServlet {
 		  isSuccess= datastore.addUserActivity(userId,attempt);
 		}  		
 		String Success=isSuccess?"Success":"Fail";
+		
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println(Success);
 	}
 }

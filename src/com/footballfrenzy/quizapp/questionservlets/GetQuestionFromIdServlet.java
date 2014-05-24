@@ -19,11 +19,18 @@ public class GetQuestionFromIdServlet {
 		Gson gson = new Gson();
 		Question question=null;
 		String questionId = req.getParameter("QID");
+		String clientOrigin = req.getHeader("origin");
+
 		Datastore datastore = new DatastoreImpl();
 		if (questionId != null && !questionId.equals("")) {
 			long qId = Long.parseLong((questionId));
 			question = datastore.getQuestion(qId);
 		}
+		
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		if(question!=null)
 			resp.getWriter().println(gson.toJson(question));
 		else

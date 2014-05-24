@@ -24,10 +24,15 @@ public class GetUserDataServlet extends HttpServlet{
 		resp.setContentType("text/json");
 		Gson gson = new Gson();
 		String userId = req.getParameter("UID");
-	
+		String clientOrigin = req.getHeader("origin");
+
 		Datastore datastore = new DatastoreImpl();
 		User user = datastore.getUserData(userId);
 		
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println(gson.toJson(user));
 	}
 

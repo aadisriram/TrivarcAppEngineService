@@ -25,11 +25,17 @@ public class NewUserServlet extends HttpServlet{
 		resp.setContentType("text/plain");
 		Gson gson = new Gson();
 		String userJson = req.getParameter("user");
-		User user = gson.fromJson(userJson, User.class);
-		
+		String clientOrigin = req.getHeader("origin");
+
+		User user = gson.fromJson(userJson, User.class);		
 		Datastore datastore = new DatastoreImpl();
 		boolean isSuccess=datastore.addUser(user);
 		String success=isSuccess?"Success":"Fail";
+		
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println(success);
 	}
 }
