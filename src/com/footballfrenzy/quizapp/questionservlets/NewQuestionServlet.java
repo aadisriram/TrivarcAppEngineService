@@ -1,4 +1,4 @@
-package com.footbalfrenzy.quizapp;
+package com.footballfrenzy.quizapp.questionservlets;
 
 import java.io.IOException;
 import java.util.Date;
