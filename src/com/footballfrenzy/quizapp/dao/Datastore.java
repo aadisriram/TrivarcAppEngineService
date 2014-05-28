@@ -32,7 +32,7 @@ public interface Datastore {
 	
 	public User getUserData(String userId);
 	
-	public boolean addUserActivity(String userId, QuestionAttempt attempt);
+	public boolean addUserActivity(String userId,Long qId,String answer,Long time);
 	
 	public boolean isQuestionAlreadyAnswered(String userId, Long qId);
 	

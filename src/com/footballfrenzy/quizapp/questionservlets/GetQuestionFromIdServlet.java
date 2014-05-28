@@ -2,6 +2,7 @@ package com.footballfrenzy.quizapp.questionservlets;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +11,8 @@ import com.footballfrenzy.quizapp.dao.DatastoreImpl;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.google.gson.Gson;
 
-public class GetQuestionFromIdServlet {
+@SuppressWarnings("serial")
+public class GetQuestionFromIdServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {

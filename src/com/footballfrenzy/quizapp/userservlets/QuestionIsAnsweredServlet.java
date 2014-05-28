@@ -30,8 +30,7 @@ public class QuestionIsAnsweredServlet extends HttpServlet {
 		{ 
 		  long qId = Long.parseLong((questionId));
 		  long time = Long.parseLong((questionId));
-		  QuestionAttempt attempt= new QuestionAttempt(qId, answer, time);
-		  isSuccess= datastore.addUserActivity(userId,attempt);
+		  isSuccess= datastore.addUserActivity(userId, qId, answer, time);
 		}  		
 		String Success=isSuccess?"Success":"Fail";
 		

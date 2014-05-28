@@ -1,26 +1,38 @@
 package com.footballfrenzy.quizapp.dataobjects;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
+@PersistenceCapable
 public class QuestionAttempt {
 
-	private Long questionId;
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	private Long activityId;
 	
+	@Persistent
+	private Long qId;
+	
+	@Persistent
 	private String answer;
 	
+	@Persistent
 	private Long timeTaken;
 	
-	public QuestionAttempt(Long questionId, String answer, Long timeTaken) {
-		this.questionId=questionId;
+	public QuestionAttempt(Long qId, String answer, Long timeTaken) {
+		this.qId=qId;
 		this.answer=answer;
 		this.timeTaken=timeTaken;
 	}
 
 	public Long getQuestionId() {
-		return questionId;
+		return qId;
 	}
 
-	public void setQuestionId(Long questionId) {
-		this.questionId = questionId;
+	public void setQuestionId(Long qId) {
+		this.qId = qId;
 	}
 
 	public String getAnswer() {
@@ -37,6 +49,14 @@ public class QuestionAttempt {
 
 	public void setTimeTaken(Long timeTaken) {
 		this.timeTaken = timeTaken;
+	}
+
+	public Long getActivityId() {
+		return activityId;
+	}
+
+	public void setActivityId(Long activityId) {
+		this.activityId = activityId;
 	}
 	
 }

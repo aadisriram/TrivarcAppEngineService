@@ -3,9 +3,14 @@ package com.footballfrenzy.quizapp.dataobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.annotations.Embedded;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Entity;
+
+import com.google.api.server.spi.config.DefaultValue;
 
 /**
  * This is the User object. It Holds all information related to a particular
@@ -14,10 +19,6 @@ import javax.jdo.annotations.PrimaryKey;
  * denotes if that class item would be persisted or not.
  * 
  */
-
-// TODO : more members to hold more info about user as and when requirement is
-// seen in future (example : total time taken etc, no of correct, no of wrong
-// answered..)
 
 @PersistenceCapable
 public class User {
@@ -35,12 +36,13 @@ public class User {
 	private String name;
 
 	@Persistent
-	private List<QuestionAttempt> quizzingActivityList = new ArrayList<QuestionAttempt>();
+	private List<Long> quizzingActivityList;
 
 	public User(String userId, String Name) {
 		super();
 		this.setUserId(userId);
 		this.setName(Name);
+		quizzingActivityList = new ArrayList<Long>();
 
 	}
 
@@ -60,12 +62,12 @@ public class User {
 		this.userId = userId;
 	}
 	
-	public List<QuestionAttempt> getUserActivity()
+	public List<Long> getUserActivity()
 	{
 		return quizzingActivityList;
 	}
 
-	public boolean addUserActivity(QuestionAttempt attempt) {
+	public boolean addUserActivity(Long attempt) {
 		if (quizzingActivityList != null) {
 			quizzingActivityList.add(0,attempt);
 			return true;

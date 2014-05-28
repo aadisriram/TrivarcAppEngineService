@@ -13,6 +13,8 @@ import javax.jdo.Query;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 import com.footballfrenzy.quizapp.dataobjects.User;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 
 /*
  * This is the data store class which interacts with the 
@@ -67,11 +69,13 @@ public class DatastoreImpl implements Datastore {
 	public Question getQuestion(Long qId) {
 		try {
 			pm = PMF.get().getPersistenceManager();
-			String filter = "questionId==" + qId;
-			Query query = pm.newQuery(Question.class);
-			query.setFilter(filter);
-			Question question = (Question) query.execute();
-			return question;
+			Query query = pm
+					.newQuery(Question.class, ":p.contains(questionId)");
+			List<Question> result = (List<Question>) query.execute(qId);
+			if (result.size() > 0)
+				return result.get(0);
+			else
+				return null;
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return null;
@@ -106,7 +110,8 @@ public class DatastoreImpl implements Datastore {
 	public boolean addUser(User user) {
 		try {
 			pm = PMF.get().getPersistenceManager();
-			pm.makePersistent(user);
+			User newuser = pm.makePersistent(user);
+			System.out.println(newuser.getUserId());
 			pm.close();
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
@@ -119,13 +124,11 @@ public class DatastoreImpl implements Datastore {
 	@Override
 	public boolean modifyUserData(String userId, String Name) {
 
-		String filter = "userId==" + "'" + userId + "'";
 		try {
 			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(User.class);
-			query.setFilter(filter);
-			User result = (User) query.execute();
-			result.setName(Name);
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			List<User> result = (List<User>) query.execute(userId);
+			result.get(0).setName(Name);
 			pm.close();
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
@@ -153,43 +156,43 @@ public class DatastoreImpl implements Datastore {
 
 	@Override
 	public User getUserData(String userId) {
-		String filter = "userId==" + "'" + userId + "'";
-		User result;
+		List<User> result;
 		try {
 			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(User.class);
-			query.setFilter(filter);
-			result = (User) query.execute();
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			result = (List<User>) query.execute(userId);
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return null;
 		}
-
-		return result;
+		if (result.size() > 0)
+			return result.get(0);
+		else
+			return null;
 	}
-
 
 	@Override
 	public boolean isQuestionAlreadyAnswered(String userId, Long qId) {
-		String filter = "userId==" + "'" + userId + "'";
 		try {
 			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(User.class);
-			query.setFilter(filter);
-			User result = (User) query.execute();
-			List<QuestionAttempt> userActivity=result.getUserActivity();
-			if(userActivity!=null)
-			{
-				for(int i=0;i<userActivity.size();i++)
-				{
-					if (userActivity.get(i) != null	) {
-						QuestionAttempt attempt=userActivity.get(i);
-						if(attempt.getQuestionId()==qId){
-							return true;							
-						}			
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			List<User> result = (List<User>) query.execute(userId);
+			if (result.size() > 0) {
+				List<Long> userActivity = result.get(0).getUserActivity();
+				pm.close();
+				if (userActivity != null) {
+					for (int i = 0; i < userActivity.size(); i++) {
+						if (userActivity.get(i) != null) {
+							Long activityId = userActivity.get(i);
+							Long DBqId = getQuestionIdFromActivityId(activityId);
+							if (DBqId.equals(qId)) {
+								return true;
+							}
+						}
 					}
-				}				
-			}		
+				}
+
+			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
@@ -199,64 +202,105 @@ public class DatastoreImpl implements Datastore {
 
 	@Override
 	public boolean doesUserExist(String userId) {
-		String filter = "userId==" + "'" + userId + "'";
-		User result = null;
+
+		List<User> result = null;
 		try {
 			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(User.class);
-			query.setFilter(filter);
-			result = (User) query.execute();
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			result = (List<User>) query.execute(userId);
+			pm.close();
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
-		if (result == null) {
+		if (result == null || result.size() == 0) {
 			// user doesn't exist in DB, Hence we will add him now
-			User newUser = new User(userId, "Unknown Football freak"); // TODO :need to get name also so that i can add to DB																	
+			User newUser = new User(userId, "Unknown Football freak"); // TODO
+																		// :need
+																		// to
+																		// get
+																		// name
+																		// also
+																		// so
+																		// that
+																		// i can
+																		// add
+																		// to DB
 			addUser(newUser);
 			return false;
-		} else 
+		} else
 			// result is not null hence user already exists
 			return true;
 	}
-	
-	
+
 	@Override
-	public boolean addUserActivity(String userId, QuestionAttempt attempt) {
-		String filter = "userId==" + "'" + userId + "'";
-		User result=null;
-		boolean hasAttempted=false;
+	public boolean addUserActivity(String userId, Long qId, String answer,
+			Long time) {
+		List<User> result = null;
+		boolean hasAttempted = false;
 		try {
 			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(User.class);
-			query.setFilter(filter);
-			result = (User) query.execute();
-			List<QuestionAttempt> userActivity=result.getUserActivity();
-			if(userActivity!=null)
-			{
-				for(int i=0;i<userActivity.size();i++)
-				{
-					if (userActivity.get(i) != null	) {
-						QuestionAttempt DBAttempt=userActivity.get(i);
-						if(DBAttempt.getQuestionId()==attempt.getQuestionId()){
-							hasAttempted=true;
-							break;
-						}			
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			result = (List<User>) query.execute(userId);
+			List<Long> userActivity = result.get(0).getUserActivity();
+			pm.close();
+			if (userActivity != null) {
+				for (int i = 0; i < userActivity.size(); i++) {
+					Long activityId = userActivity.get(i);
+					Long DBqId = getQuestionIdFromActivityId(activityId);
+					if (DBqId.equals(qId)) {
+						hasAttempted = true;
+						break;
+
 					}
 				}
-				
-			}			
+
+			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
-		
-		if(!hasAttempted){
-			if(result!=null){
-				return result.addUserActivity(attempt);	
+
+		if (!hasAttempted) {
+			long aid = addNewActivity(qId, answer, time);
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			result = (List<User>) query.execute(userId);
+			if (result != null) {
+				boolean isSuccess = result.get(0).addUserActivity(aid);
+				pm.close();
+				return isSuccess;
 			}
 			return false;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
+
+	public Long getQuestionIdFromActivityId(Long aId) {
+		pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(QuestionAttempt.class,
+				":p.contains(activityId)");
+		List<QuestionAttempt> attempt = (List<QuestionAttempt>) query
+				.execute(aId);
+		pm.close();
+		return attempt.get(0).getQuestionId();
+
+	}
+
+	public Long addNewActivity(Long qId, String answer, Long time) {
+		QuestionAttempt savedAttempt = null;
+		try {
+			QuestionAttempt attempt = new QuestionAttempt(qId, answer, time);
+			pm = PMF.get().getPersistenceManager();
+			savedAttempt = pm.makePersistent(attempt);
+			pm.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		if (savedAttempt != null)
+			return savedAttempt.getActivityId();
+		else
+			return (long) -1;
+
+	}
+
 }
