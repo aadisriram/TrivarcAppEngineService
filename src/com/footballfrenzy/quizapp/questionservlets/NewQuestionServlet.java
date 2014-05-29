@@ -27,11 +27,16 @@ public class NewQuestionServlet extends HttpServlet {
 		Gson gson = new Gson();
 		String questionJson = req.getParameter("question");
 		String dateMS = req.getParameter("date");
+		String clientOrigin = req.getHeader("origin");
 		Question question = gson.fromJson(questionJson, Question.class);
 		question.setQuestionDate(new Date(Long.parseLong(dateMS)));
 		Datastore datastore = new DatastoreImpl();
 		datastore.addQuestion(question);
 		
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println("Question Added");
 	}
 
