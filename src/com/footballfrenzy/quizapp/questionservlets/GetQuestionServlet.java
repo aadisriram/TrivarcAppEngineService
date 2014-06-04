@@ -32,5 +32,4 @@ public class GetQuestionServlet extends HttpServlet {
         resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println(gson.toJson(question));
 	}
-
 }

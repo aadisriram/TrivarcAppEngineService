@@ -35,14 +35,18 @@ public class Question {
 	
 	@Persistent
 	private String answer;
+	
+	@Persistent
+	private String fact;
 
 	public Question(String question, List<String> options,
-			String answer, Date questionDate) {
+			String answer, Date questionDate, String fact) {
 		super();
 		this.question = question;
 		this.options = options;
 		this.questionDate = questionDate;
 		this.answer = answer;
+		this.fact = fact;
 	}
 
 	public Long getQuestionId() {
@@ -83,5 +87,13 @@ public class Question {
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
+	}
+
+	public String getFact() {
+		return fact;
+	}
+
+	public void setFact(String fact) {
+		this.fact = fact;
 	}
 }

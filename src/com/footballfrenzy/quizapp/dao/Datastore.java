@@ -3,13 +3,12 @@ package com.footballfrenzy.quizapp.dao;
 import java.util.Date;
 
 import com.footballfrenzy.quizapp.dataobjects.Question;
-import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 import com.footballfrenzy.quizapp.dataobjects.User;
 
 /*
     This is the interface that exposes the methods that the datastore provides
 	Any class that wants to access the data store must implement this.
-*/
+ */
 public interface Datastore {
 
 	public boolean addQuestion(Question question);
@@ -32,12 +31,8 @@ public interface Datastore {
 
 	public User getUserData(String userId);
 
-	public boolean addUserActivity(String userId, QuestionAttempt attempt);
+	public boolean addUserActivity(String userId,Long qId,String answer,Long time);
 
 	public boolean isQuestionAlreadyAnswered(String userId, Long qId);
-
-	public Comment getComment(Date date);
-
-  public boolean addComment(Comment comment);
 
 }
