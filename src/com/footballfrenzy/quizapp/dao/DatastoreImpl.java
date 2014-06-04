@@ -15,7 +15,7 @@ import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 import com.footballfrenzy.quizapp.dataobjects.User;
 
 /*
- * This is the data store class which interacts with the 
+ * This is the data store class which interacts with the
  * persistence manager. The persistence manager does not
  * depend on the data objects or the schema.
  */
@@ -185,11 +185,11 @@ public class DatastoreImpl implements Datastore {
 					if (userActivity.get(i) != null	) {
 						QuestionAttempt attempt=userActivity.get(i);
 						if(attempt.getQuestionId()==qId){
-							return true;							
-						}			
+							return true;
+						}
 					}
-				}				
-			}		
+				}
+			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
@@ -211,15 +211,15 @@ public class DatastoreImpl implements Datastore {
 		}
 		if (result == null) {
 			// user doesn't exist in DB, Hence we will add him now
-			User newUser = new User(userId, "Unknown Football freak"); // TODO :need to get name also so that i can add to DB																	
+			User newUser = new User(userId, "Unknown Football freak"); // TODO :need to get name also so that i can add to DB
 			addUser(newUser);
 			return false;
-		} else 
+		} else
 			// result is not null hence user already exists
 			return true;
 	}
-	
-	
+
+
 	@Override
 	public boolean addUserActivity(String userId, QuestionAttempt attempt) {
 		String filter = "userId==" + "'" + userId + "'";
@@ -240,18 +240,18 @@ public class DatastoreImpl implements Datastore {
 						if(DBAttempt.getQuestionId()==attempt.getQuestionId()){
 							hasAttempted=true;
 							break;
-						}			
+						}
 					}
 				}
-				
-			}			
+
+			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
-		
+
 		if(!hasAttempted){
 			if(result!=null){
-				return result.addUserActivity(attempt);	
+				return result.addUserActivity(attempt);
 			}
 			return false;
 		}
@@ -259,4 +259,30 @@ public class DatastoreImpl implements Datastore {
 			return false;
 		}
 	}
+
+  public boolean addComment(Comment comment) {
+
+    return true;
+  }
+
+  public Comment getComment(Date date) {
+    pm = PMF.get().getPersistenceManager();
+    Date limitLower = (Date) date.clone();
+
+    Calendar cal = GregorianCalendar.getInstance();
+    cal.setTime(limitLower);
+    cal.add(GregorianCalendar.MINUTE, -60);
+
+    limitLower = cal.getTime();
+
+    Query query = pm.newQuery(Comment.class,
+        "commentDate >= :dateLower && commentDate <= :dateUpper");
+    List<Comment> comments = (List<Comment>) query.execute(limitLower,
+        date);
+
+    if (question.isEmpty())
+      return null;
+    else
+      return comments.get(0);
+  }
 }
