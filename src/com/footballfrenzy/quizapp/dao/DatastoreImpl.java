@@ -48,7 +48,7 @@ public class DatastoreImpl implements Datastore {
 
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(limitLower);
-		cal.add(GregorianCalendar.MINUTE, -15);
+		cal.add(GregorianCalendar.MINUTE, -59);
 
 		limitLower = cal.getTime();
 
@@ -59,11 +59,27 @@ public class DatastoreImpl implements Datastore {
 		if (question.isEmpty())
 			return null;
 		else {
+			limitLower = (Date) date.clone();
+			cal.setTime(limitLower);
+			cal.add(GregorianCalendar.MINUTE, -119);
+			limitLower = cal.getTime();
+			
+			Date limitUpper = (Date) date.clone();
+			cal.setTime(limitUpper);
+			cal.add(GregorianCalendar.MINUTE, -59);
+			limitUpper = cal.getTime();
+			query = pm.newQuery(Question.class,
+					"questionDate >= :dateLower && questionDate <= :dateUpper");
+			
 			Question quest = question.get(0);
+			question = (List<Question>) query.execute(limitLower, limitUpper);
+			if(!question.isEmpty()) {
+				quest.setLastAnswer(question.get(0).getAnswer());
+				quest.setLastQuestion(question.get(0).getQuestion());
+			}
 			quest.setAnswer(null);
 			return quest;
-		}
-			
+		}	
 	}
 
 	@Override

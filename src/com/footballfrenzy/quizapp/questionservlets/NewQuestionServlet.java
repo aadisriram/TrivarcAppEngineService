@@ -24,6 +24,11 @@ public class NewQuestionServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/plain");
+		String clientOrigin = req.getHeader("origin");
+		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Max-Age", "86400");
 		Gson gson = new Gson();
 		String questionJson = req.getParameter("question");
 		String dateMS = req.getParameter("date");

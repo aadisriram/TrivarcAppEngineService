@@ -38,6 +38,9 @@ public class Question {
 	
 	@Persistent
 	private String fact;
+	
+	private String lastQuestion;
+	private String lastAnswer;
 
 	public Question(String question, List<String> options,
 			String answer, Date questionDate, String fact) {
@@ -95,5 +98,21 @@ public class Question {
 
 	public void setFact(String fact) {
 		this.fact = fact;
+	}
+
+	public String getLastQuestion() {
+		return lastQuestion;
+	}
+
+	public void setLastQuestion(String lastQuestion) {
+		this.lastQuestion = lastQuestion;
+	}
+
+	public String getLastAnswer() {
+		return lastAnswer;
+	}
+
+	public void setLastAnswer(String lastAnswer) {
+		this.lastAnswer = lastAnswer;
 	}
 }
