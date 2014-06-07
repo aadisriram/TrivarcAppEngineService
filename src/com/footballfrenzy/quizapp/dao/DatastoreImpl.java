@@ -56,9 +56,10 @@ public class DatastoreImpl implements Datastore {
 				"questionDate >= :dateLower && questionDate <= :dateUpper");
 		List<Question> question = (List<Question>) query.execute(limitLower, date);
 
-		if (question.isEmpty())
+		if (question.isEmpty()) {
+			pm.close();
 			return null;
-		else {
+		} else {
 			limitLower = (Date) date.clone();
 			cal.setTime(limitLower);
 			cal.add(GregorianCalendar.MINUTE, -119);
@@ -74,10 +75,11 @@ public class DatastoreImpl implements Datastore {
 			Question quest = question.get(0);
 			question = (List<Question>) query.execute(limitLower, limitUpper);
 			if(!question.isEmpty()) {
-				quest.setLastAnswer(question.get(0).getAnswer());
-				quest.setLastQuestion(question.get(0).getQuestion());
+				Question lastQuestion = question.get(0);
+				quest.setLastAnswer(lastQuestion.getAnswer());
+				quest.setLastQuestion(lastQuestion.getQuestion());
 			}
-			quest.setAnswer(null);
+			pm.close();
 			return quest;
 		}	
 	}
@@ -96,6 +98,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return null;
+		} finally {
+			pm.close();
 		}
 
 	}
@@ -150,6 +154,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
+		} finally {
+			pm.close();
 		}
 
 		return true;
@@ -166,6 +172,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
+		} finally {
+			pm.close();
 		}
 
 		return false;
@@ -181,6 +189,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return null;
+		} finally {
+			pm.close();
 		}
 		if (result.size() > 0)
 			return result.get(0);
@@ -212,6 +222,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
+		} finally {
+			pm.close();
 		}
 		return false;
 	}

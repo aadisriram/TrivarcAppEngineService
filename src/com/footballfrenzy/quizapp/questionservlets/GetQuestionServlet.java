@@ -25,7 +25,7 @@ public class GetQuestionServlet extends HttpServlet {
 		Date date = new Date(Long.parseLong(dateString));
 	
 		Datastore datastore = new DatastoreImpl();
-		Question question = datastore.getQuestion(date);
+		Question question = (datastore.getQuestion(date)).clone();
 		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
         resp.setHeader("Access-Control-Allow-Methods", "GET");
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type");

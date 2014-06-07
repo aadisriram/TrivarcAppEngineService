@@ -52,6 +52,14 @@ public class Question {
 		this.fact = fact;
 	}
 
+	public Question clone() {
+		Question ques = new Question(question, options, null, questionDate, fact);
+		ques.setLastAnswer(lastAnswer);
+		ques.setLastQuestion(lastQuestion);
+		ques.setQuestionId(questionId);
+		return ques;
+	}
+
 	public Long getQuestionId() {
 		return questionId;
 	}
