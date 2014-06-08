@@ -22,7 +22,8 @@ public class GetQuestionServlet extends HttpServlet {
 		Gson gson = new Gson();
 		String dateString = req.getParameter("date");
 		String clientOrigin = req.getHeader("origin");
-		Date date = new Date(Long.parseLong(dateString));
+		Date date = new Date();
+		//Date date = new Date(Long.parseLong(dateString));
 	
 		Datastore datastore = new DatastoreImpl();
 		Question question = (datastore.getQuestion(date)).clone();
