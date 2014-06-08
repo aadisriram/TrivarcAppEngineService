@@ -13,11 +13,9 @@ import javax.jdo.Query;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 import com.footballfrenzy.quizapp.dataobjects.User;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
 
 /*
- * This is the data store class which interacts with the 
+ * This is the data store class which interacts with the
  * persistence manager. The persistence manager does not
  * depend on the data objects or the schema.
  */
@@ -50,19 +48,40 @@ public class DatastoreImpl implements Datastore {
 
 		Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(limitLower);
-		cal.add(GregorianCalendar.MINUTE, -15);
+		cal.add(GregorianCalendar.MINUTE, -59);
 
 		limitLower = cal.getTime();
 
 		Query query = pm.newQuery(Question.class,
 				"questionDate >= :dateLower && questionDate <= :dateUpper");
-		List<Question> question = (List<Question>) query.execute(limitLower,
-				date);
+		List<Question> question = (List<Question>) query.execute(limitLower, date);
 
-		if (question.isEmpty())
+		if (question.isEmpty()) {
+			pm.close();
 			return null;
-		else
-			return question.get(0);
+		} else {
+			limitLower = (Date) date.clone();
+			cal.setTime(limitLower);
+			cal.add(GregorianCalendar.MINUTE, -119);
+			limitLower = cal.getTime();
+			
+			Date limitUpper = (Date) date.clone();
+			cal.setTime(limitUpper);
+			cal.add(GregorianCalendar.MINUTE, -59);
+			limitUpper = cal.getTime();
+			query = pm.newQuery(Question.class,
+					"questionDate >= :dateLower && questionDate <= :dateUpper");
+			
+			Question quest = question.get(0);
+			question = (List<Question>) query.execute(limitLower, limitUpper);
+			if(!question.isEmpty()) {
+				Question lastQuestion = question.get(0);
+				quest.setLastAnswer(lastQuestion.getAnswer());
+				quest.setLastQuestion(lastQuestion.getQuestion());
+			}
+			pm.close();
+			return quest;
+		}	
 	}
 
 	@Override
@@ -79,6 +98,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return null;
+		} finally {
+			pm.close();
 		}
 
 	}
@@ -133,6 +154,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
+		} finally {
+			pm.close();
 		}
 
 		return true;
@@ -149,6 +172,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
+		} finally {
+			pm.close();
 		}
 
 		return false;
@@ -164,6 +189,8 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return null;
+		} finally {
+			pm.close();
 		}
 		if (result.size() > 0)
 			return result.get(0);
@@ -191,11 +218,12 @@ public class DatastoreImpl implements Datastore {
 						}
 					}
 				}
-
 			}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return false;
+		} finally {
+			pm.close();
 		}
 		return false;
 	}
@@ -214,17 +242,7 @@ public class DatastoreImpl implements Datastore {
 		}
 		if (result == null || result.size() == 0) {
 			// user doesn't exist in DB, Hence we will add him now
-			User newUser = new User(userId, "Unknown Football freak"); // TODO
-																		// :need
-																		// to
-																		// get
-																		// name
-																		// also
-																		// so
-																		// that
-																		// i can
-																		// add
-																		// to DB
+			User newUser = new User(userId, "Unknown Football freak"); 
 			addUser(newUser);
 			return false;
 		} else
@@ -239,6 +257,7 @@ public class DatastoreImpl implements Datastore {
 		boolean hasAttempted = false;
 		try {
 			pm = PMF.get().getPersistenceManager();
+
 			Query query = pm.newQuery(User.class, ":p.contains(userId)");
 			result = (List<User>) query.execute(userId);
 			List<Long> userActivity = result.get(0).getUserActivity();
@@ -274,13 +293,12 @@ public class DatastoreImpl implements Datastore {
 			return false;
 		}
 	}
-
+	
 	public Long getQuestionIdFromActivityId(Long aId) {
 		pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(QuestionAttempt.class,
 				":p.contains(activityId)");
-		List<QuestionAttempt> attempt = (List<QuestionAttempt>) query
-				.execute(aId);
+		List<QuestionAttempt> attempt = (List<QuestionAttempt>) query.execute(aId);
 		pm.close();
 		return attempt.get(0).getQuestionId();
 
