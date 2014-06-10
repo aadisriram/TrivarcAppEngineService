@@ -22,4 +22,5 @@ public class FIFAWcQAServlet extends HttpServlet {
 		Gson gs = new Gson();
 		resp.getWriter().println(gs.toJson(q));
 	}
+	
 }
