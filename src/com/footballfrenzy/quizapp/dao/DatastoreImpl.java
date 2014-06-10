@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.footballfrenzy.quizapp.dataobjects.Poll;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 import com.footballfrenzy.quizapp.dataobjects.User;
@@ -54,7 +55,8 @@ public class DatastoreImpl implements Datastore {
 
 		Query query = pm.newQuery(Question.class,
 				"questionDate >= :dateLower && questionDate <= :dateUpper");
-		List<Question> question = (List<Question>) query.execute(limitLower, date);
+		List<Question> question = (List<Question>) query.execute(limitLower,
+				date);
 
 		if (question.isEmpty()) {
 			pm.close();
@@ -64,24 +66,24 @@ public class DatastoreImpl implements Datastore {
 			cal.setTime(limitLower);
 			cal.add(GregorianCalendar.MINUTE, -119);
 			limitLower = cal.getTime();
-			
+
 			Date limitUpper = (Date) date.clone();
 			cal.setTime(limitUpper);
 			cal.add(GregorianCalendar.MINUTE, -59);
 			limitUpper = cal.getTime();
 			query = pm.newQuery(Question.class,
 					"questionDate >= :dateLower && questionDate <= :dateUpper");
-			
+
 			Question quest = question.get(0);
 			question = (List<Question>) query.execute(limitLower, limitUpper);
-			if(!question.isEmpty()) {
+			if (!question.isEmpty()) {
 				Question lastQuestion = question.get(0);
 				quest.setLastAnswer(lastQuestion.getAnswer());
 				quest.setLastQuestion(lastQuestion.getQuestion());
 			}
 			pm.close();
 			return quest;
-		}	
+		}
 	}
 
 	@Override
@@ -242,7 +244,7 @@ public class DatastoreImpl implements Datastore {
 		}
 		if (result == null || result.size() == 0) {
 			// user doesn't exist in DB, Hence we will add him now
-			User newUser = new User(userId, "Unknown Football freak"); 
+			User newUser = new User(userId, "Unknown Football freak");
 			addUser(newUser);
 			return false;
 		} else
@@ -293,12 +295,13 @@ public class DatastoreImpl implements Datastore {
 			return false;
 		}
 	}
-	
+
 	public Long getQuestionIdFromActivityId(Long aId) {
 		pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(QuestionAttempt.class,
 				":p.contains(activityId)");
-		List<QuestionAttempt> attempt = (List<QuestionAttempt>) query.execute(aId);
+		List<QuestionAttempt> attempt = (List<QuestionAttempt>) query
+				.execute(aId);
 		pm.close();
 		return attempt.get(0).getQuestionId();
 
@@ -321,4 +324,86 @@ public class DatastoreImpl implements Datastore {
 
 	}
 
+	@Override
+	public boolean addPollItem(Poll poll) {
+		try {
+			pm = PMF.get().getPersistenceManager();
+			pm.makePersistent(poll);
+			pm.close();
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean addPUserPollActivity(String userId, String category,
+			String name) {
+		boolean isSuccess=false;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(Poll.class, ":p.contains(category)");
+			List<Poll> result = (List<Poll>) query.execute(category);
+			if (result != null)
+				if (result.size() > 0) {
+					for (int i = 0; i < result.size(); i++) {
+						if (result.get(i).getPollName().equals(name)) {
+							result.get(i).addcount();
+							pm.close();
+							break;
+						}
+
+					}
+				}
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+			return false;
+		}
+		
+		//Now adding user attempted status to User DB
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			List<User>result = (List<User>) query.execute(userId);
+			if(result!=null)
+				if(result.size()>0)
+				{
+					isSuccess=result.get(0).addUserPollActivity(category);
+				}
+			pm.close();
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+			return false;
+		}
+		
+		
+		return isSuccess;
+	}
+
+	@Override
+	public boolean hasUserAttemptedPoll(String userId, String category) {
+		boolean hasAttempted=false;
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(User.class, ":p.contains(userId)");
+			List<User>result = (List<User>) query.execute(userId);
+			if(result!=null)
+				if(result.size()>0)
+				{
+					List<String> poll=result.get(0).getUserPollActivity();
+					if(poll!=null)
+					{
+						if(poll.contains(category))
+							hasAttempted=true;
+					}
+				}
+			pm.close();
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+			return false;
+		}
+	
+		return hasAttempted;
+	}
 }

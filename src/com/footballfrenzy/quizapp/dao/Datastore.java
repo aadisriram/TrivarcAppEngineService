@@ -2,6 +2,7 @@ package com.footballfrenzy.quizapp.dao;
 
 import java.util.Date;
 
+import com.footballfrenzy.quizapp.dataobjects.Poll;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.footballfrenzy.quizapp.dataobjects.User;
 
@@ -34,5 +35,11 @@ public interface Datastore {
 	public boolean addUserActivity(String userId,Long qId,String answer,Long time);
 
 	public boolean isQuestionAlreadyAnswered(String userId, Long qId);
+	
+	public boolean addPollItem(Poll poll);
+	
+	public boolean addPUserPollActivity(String userId, String category, String name);
+	
+	public boolean hasUserAttemptedPoll(String userId, String category);
 
 }

@@ -107,6 +107,33 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/validateuser</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>AddPoll</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.pollservlets.AddPollServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddPoll</servlet-name>
+		<url-pattern>/addpoll</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RecordPoll</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.pollservlets.PollActivityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RecordPoll</servlet-name>
+		<url-pattern>/recordpoll</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CheckPollForUser</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.userservlets.CheckIsPollAttemptedServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CheckPollForUser</servlet-name>
+		<url-pattern>/checkpoll</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

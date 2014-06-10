@@ -38,11 +38,15 @@ public class User {
 	@Persistent
 	private List<Long> quizzingActivityList;
 
+	@Persistent
+	private List<String> pollActivityList;
+
 	public User(String userId, String Name) {
 		super();
 		this.setUserId(userId);
 		this.setName(Name);
 		quizzingActivityList = new ArrayList<Long>();
+		pollActivityList = new ArrayList<String>();
 
 	}
 
@@ -61,18 +65,28 @@ public class User {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
-	public List<Long> getUserActivity()
-	{
+
+	public List<Long> getUserActivity() {
 		return quizzingActivityList;
 	}
 
 	public boolean addUserActivity(Long attempt) {
 		if (quizzingActivityList != null) {
-			quizzingActivityList.add(0,attempt);
+			quizzingActivityList.add(0, attempt);
 			return true;
 		}
 		return false;
 	}
 
+	public boolean addUserPollActivity(String category){
+		if(pollActivityList!=null && !pollActivityList.contains(category)){
+			pollActivityList.add(0,category);
+			return true;
+		}
+		return false;
+	}
+	
+	public List<String> getUserPollActivity() {
+		return pollActivityList;
+	}
 }
