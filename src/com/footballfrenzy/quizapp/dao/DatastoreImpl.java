@@ -1,5 +1,6 @@
 package com.footballfrenzy.quizapp.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -10,10 +11,16 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import org.mortbay.util.ajax.JSON;
+
 import com.footballfrenzy.quizapp.dataobjects.Poll;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
 import com.footballfrenzy.quizapp.dataobjects.User;
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /*
  * This is the data store class which interacts with the
@@ -231,9 +238,10 @@ public class DatastoreImpl implements Datastore {
 	}
 
 	@Override
-	public boolean doesUserExist(String userId) {
+	public JSONObject doesUserExist(String userId, String name, String pollName ) throws JSONException {
 
 		List<User> result = null;
+		JSONObject jsonobj=new JSONObject();
 		try {
 			pm = PMF.get().getPersistenceManager();
 			Query query = pm.newQuery(User.class, ":p.contains(userId)");
@@ -244,12 +252,20 @@ public class DatastoreImpl implements Datastore {
 		}
 		if (result == null || result.size() == 0) {
 			// user doesn't exist in DB, Hence we will add him now
-			User newUser = new User(userId, "Unknown Football freak");
+			User newUser = new User(userId, name);
 			addUser(newUser);
-			return false;
-		} else
+			jsonobj.put("User", false);
+			jsonobj.put("Poll", false);
+			return jsonobj;
+		} else			
+		{
 			// result is not null hence user already exists
-			return true;
+			boolean hasAttempted=hasUserAttemptedPoll(userId, pollName);
+			jsonobj.put("User", true);
+			jsonobj.put("Poll", hasAttempted);
+			return jsonobj;
+		}
+			
 	}
 
 	@Override
@@ -328,6 +344,10 @@ public class DatastoreImpl implements Datastore {
 	public boolean addPollItem(Poll poll) {
 		try {
 			pm = PMF.get().getPersistenceManager();
+			List<Integer>voteCount=new ArrayList<Integer>();
+			for(int i=0;i<poll.getOptions().size();i++)
+				voteCount.add(0);
+			poll.setVoteCount(voteCount);
 			pm.makePersistent(poll);
 			pm.close();
 		} catch (Exception e) {
@@ -338,27 +358,23 @@ public class DatastoreImpl implements Datastore {
 	}
 
 	@Override
-	public boolean addPUserPollActivity(String userId, String category,
-			String name) {
+	public JSONObject addPUserPollActivity(String userId, String name,
+			String option) throws JSONException {
 		boolean isSuccess=false;
+		JSONObject mainobj=new JSONObject();
 		try {
 			pm = PMF.get().getPersistenceManager();
-			Query query = pm.newQuery(Poll.class, ":p.contains(category)");
-			List<Poll> result = (List<Poll>) query.execute(category);
+			Query query = pm.newQuery(Poll.class, ":p.contains(pollName)");
+			List<Poll> result = (List<Poll>) query.execute(name);
 			if (result != null)
 				if (result.size() > 0) {
-					for (int i = 0; i < result.size(); i++) {
-						if (result.get(i).getPollName().equals(name)) {
-							result.get(i).addcount();
-							pm.close();
-							break;
-						}
-
-					}
+					result.get(0).addCount(option);
+					
 				}
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
-			return false;
+			mainobj.put("Response", "Error");
+			return mainobj;
 		}
 		
 		//Now adding user attempted status to User DB
@@ -366,23 +382,33 @@ public class DatastoreImpl implements Datastore {
 			pm = PMF.get().getPersistenceManager();
 			Query query = pm.newQuery(User.class, ":p.contains(userId)");
 			List<User>result = (List<User>) query.execute(userId);
+			pm.close();
 			if(result!=null)
 				if(result.size()>0)
 				{
-					isSuccess=result.get(0).addUserPollActivity(category);
+					isSuccess=result.get(0).addUserPollActivity(name);
+					if(isSuccess)
+					{
+						mainobj=getPollStatus(name);
+					}
+					else
+					{
+						mainobj.put("Response", "Error");
+					}
 				}
 			pm.close();
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
-			return false;
+			mainobj.put("Response", "Error");
+			return mainobj;
 		}
 		
 		
-		return isSuccess;
+		return mainobj;
 	}
 
 	@Override
-	public boolean hasUserAttemptedPoll(String userId, String category) {
+	public boolean hasUserAttemptedPoll(String userId, String name) {
 		boolean hasAttempted=false;
 		try {
 			pm = PMF.get().getPersistenceManager();
@@ -394,7 +420,7 @@ public class DatastoreImpl implements Datastore {
 					List<String> poll=result.get(0).getUserPollActivity();
 					if(poll!=null)
 					{
-						if(poll.contains(category))
+						if(poll.contains(name))
 							hasAttempted=true;
 					}
 				}
@@ -405,5 +431,41 @@ public class DatastoreImpl implements Datastore {
 		}
 	
 		return hasAttempted;
+	}
+
+	@Override
+	public JSONObject getPollStatus(String pollName) throws JSONException {
+		JSONObject mainobj=new JSONObject();
+		try {
+			pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(Poll.class, ":p.contains(pollName)");
+			List<Poll>result = (List<Poll>) query.execute(pollName);
+			pm.close();
+			if(result!=null)
+			{
+				ArrayList<String>options=(ArrayList<String>) result.get(0).getOptions();
+				ArrayList<Integer>count=(ArrayList<Integer>) result.get(0).getVoteCount();
+				JSONArray ja=new JSONArray();
+				for(int i=0;i<options.size();i++)
+				{
+					JSONObject jsonobj=new JSONObject();
+					jsonobj.put(options.get(i), count.get(i));
+					ja.put(jsonobj);
+				}
+				mainobj.put(pollName, ja);
+			}
+			else
+			{
+				mainobj.put("Response","Error");
+			}
+	
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+			mainobj.put("Response","Error");
+			return mainobj;
+
+		}
+				
+		return mainobj;
 	}
 }

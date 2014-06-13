@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.footballfrenzy.quizapp.dao.Datastore;
 import com.footballfrenzy.quizapp.dao.DatastoreImpl;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 @SuppressWarnings("serial")
 public class PollActivityServlet extends HttpServlet{
@@ -16,20 +18,24 @@ public class PollActivityServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		resp.setContentType("text/plain");
+		resp.setContentType("text/json");
 		String userId = req.getParameter("UID");
-		String category = req.getParameter("category");
-		String name = req.getParameter("name");
+		String name = req.getParameter("poll");
+		String option = req.getParameter("option");
 		String clientOrigin = req.getHeader("origin");
 
 		Datastore datastore = new DatastoreImpl();
-		boolean isSuccess = datastore.addPUserPollActivity(userId, category, name);
-		String success=isSuccess?"Success":"Fail";
+		JSONObject jsonobj=null;
+		try {
+			jsonobj = datastore.addPUserPollActivity(userId, name, option);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		
 		resp.setHeader("Access-Control-Allow-Origin", clientOrigin);
         resp.setHeader("Access-Control-Allow-Methods", "GET");
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
         resp.setHeader("Access-Control-Max-Age", "86400");
-		resp.getWriter().println(success);
+		resp.getWriter().println(jsonobj);
 	}
 }

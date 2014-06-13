@@ -32,7 +32,6 @@ public class NewQuestionServlet extends HttpServlet {
 		Gson gson = new Gson();
 		String questionJson = req.getParameter("question");
 		String dateMS = req.getParameter("date");
-		String clientOrigin = req.getHeader("origin");
 		Question question = gson.fromJson(questionJson, Question.class);
 		question.setQuestionDate(new Date(Long.parseLong(dateMS)));
 		Datastore datastore = new DatastoreImpl();

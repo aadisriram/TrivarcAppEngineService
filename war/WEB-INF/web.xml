@@ -134,6 +134,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/checkpoll</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>GetPollStatus</servlet-name>
+		<servlet-class>com.footballfrenzy.quizapp.pollservlets.GetPollDetailsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetPollStatus</servlet-name>
+		<url-pattern>/getpoll</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
