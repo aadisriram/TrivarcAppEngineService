@@ -307,9 +307,9 @@ public class DatastoreImpl implements Datastore {
 					if(ques!=null)
 					{
 						if(ques.getAnswer().equals(answer))
-							mainojb.put("Answer", "Correct");
+							mainojb.put("Response", "Correct");
 						else
-							mainojb.put("Answer", "Wrong");
+							mainojb.put("Response", "Wrong");
 					}
 					else
 						mainojb.put("Response", "Error");
@@ -319,7 +319,7 @@ public class DatastoreImpl implements Datastore {
 			mainojb.put("Response", "Error");
 			return mainojb;
 		} else {
-			mainojb.put("Response", "Error");
+			mainojb.put("Response", "Attemped");
 			return mainojb;
 		}
 	}
