@@ -313,8 +313,8 @@ public class DatastoreImpl implements Datastore {
 					}
 					else
 						mainojb.put("Response", "Error");
+						return mainojb;
 				}
-				return mainojb;
 			}
 			mainojb.put("Response", "Error");
 			return mainojb;
