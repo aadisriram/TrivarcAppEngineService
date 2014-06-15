@@ -34,7 +34,7 @@ public interface Datastore {
 
 	public User getUserData(String userId);
 
-	public boolean addUserActivity(String userId,Long qId,String answer,Long time);
+	public JSONObject addUserActivity(String userId,Long qId,String answer,Long time) throws JSONException;
 
 	public boolean isQuestionAlreadyAnswered(String userId, Long qId);
 	

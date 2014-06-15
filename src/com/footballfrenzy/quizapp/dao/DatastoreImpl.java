@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.mortbay.util.ajax.JSON;
-
 import com.footballfrenzy.quizapp.dataobjects.Poll;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.footballfrenzy.quizapp.dataobjects.QuestionAttempt;
@@ -20,7 +18,6 @@ import com.footballfrenzy.quizapp.dataobjects.User;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
-import com.google.gson.JsonObject;
 
 /*
  * This is the data store class which interacts with the
@@ -100,6 +97,7 @@ public class DatastoreImpl implements Datastore {
 			Query query = pm
 					.newQuery(Question.class, ":p.contains(questionId)");
 			List<Question> result = (List<Question>) query.execute(qId);
+			pm.close();
 			if (result.size() > 0)
 				return result.get(0);
 			else
@@ -107,9 +105,7 @@ public class DatastoreImpl implements Datastore {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			return null;
-		} finally {
-			pm.close();
-		}
+		} 
 
 	}
 
@@ -269,10 +265,11 @@ public class DatastoreImpl implements Datastore {
 	}
 
 	@Override
-	public boolean addUserActivity(String userId, Long qId, String answer,
-			Long time) {
+	public JSONObject addUserActivity(String userId, Long qId, String answer,
+			Long time) throws JSONException{
 		List<User> result = null;
 		boolean hasAttempted = false;
+		JSONObject mainojb=new JSONObject();
 		try {
 			pm = PMF.get().getPersistenceManager();
 
@@ -304,11 +301,26 @@ public class DatastoreImpl implements Datastore {
 			if (result != null) {
 				boolean isSuccess = result.get(0).addUserActivity(aid);
 				pm.close();
-				return isSuccess;
+				if(isSuccess)
+				{
+					Question ques=getQuestion(qId);
+					if(ques!=null)
+					{
+						if(ques.getAnswer().equals(answer))
+							mainojb.put("Answer", "Correct");
+						else
+							mainojb.put("Answer", "Wrong");
+					}
+					else
+						mainojb.put("Response", "Error");
+				}
+				return mainojb;
 			}
-			return false;
+			mainojb.put("Response", "Error");
+			return mainojb;
 		} else {
-			return false;
+			mainojb.put("Response", "Error");
+			return mainojb;
 		}
 	}
 
