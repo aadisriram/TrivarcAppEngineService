@@ -1,7 +1,6 @@
-package com.footballfrenzy.quizapp.userservlets;
+package com.footballfrenzy.quizapp.pollservlets;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,22 +13,20 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 @SuppressWarnings("serial")
-public class DoesUserExistServlet extends HttpServlet {
+public class GetPollDetailsServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/json");
-		String userId = req.getParameter("UID");
-		String name = req.getParameter("name");
-		String pollName = req.getParameter("poll");
 		String clientOrigin = req.getHeader("origin");
-
+		String pollName = req.getParameter("poll");
 		Datastore datastore = new DatastoreImpl();
 		JSONObject jsonobj=null;
 		try {
-			jsonobj = datastore.doesUserExist(userId, name, pollName);
+			jsonobj = datastore.getPollStatus(pollName);
 		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -39,4 +36,5 @@ public class DoesUserExistServlet extends HttpServlet {
         resp.setHeader("Access-Control-Max-Age", "86400");
 		resp.getWriter().println(jsonobj);
 	}
+	
 }

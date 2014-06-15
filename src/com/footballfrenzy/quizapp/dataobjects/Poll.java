@@ -1,31 +1,31 @@
 package com.footballfrenzy.quizapp.dataobjects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 
+
 @PersistenceCapable
 public class Poll {
 	
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long pollId;
-	
 	@Persistent
 	private String pollName;
 	
 	@Persistent
-	private int count;
+	private List<Integer> voteCount;
 	
 	@Persistent
-	private String category;
+	private List<String> options;
 	
-	public Poll(String pollName, int count, String category ){
+	public Poll(String pollName, List<String> options ){
 		this.pollName=pollName;
-		this.count=count;
-		this.category=category;
+		this.options=options;
 	}
 	
 	public void setPollName(String name)
@@ -38,24 +38,32 @@ public class Poll {
 		return pollName;
 	}
 	
-	public void setCategory(String category)
+	public void setOptions(List<String> options)
 	{
-		this.category=category;
+		this.options=options;
 	}
 	
-	public String getCategory()
+	public List<String> getOptions()
 	{
-		return category;
+		return options;
 	}
 	
-	public int addcount()
+	public void addCount(String option)
 	{
-		return count++;
+		int index=0;
+		if(options!=null)
+			index=options.indexOf(option);
+		voteCount.set(index, voteCount.get(index)+1);
 	}
 	
-	public int getCount()
+	public void setVoteCount(List<Integer> count)
+	{	
+		voteCount=count;
+	}
+	
+	public List<Integer> getVoteCount()
 	{
-		return count;
+		return voteCount;
 	}
 	
 

@@ -78,9 +78,9 @@ public class User {
 		return false;
 	}
 
-	public boolean addUserPollActivity(String category){
-		if(pollActivityList!=null && !pollActivityList.contains(category)){
-			pollActivityList.add(0,category);
+	public boolean addUserPollActivity(String name){
+		if(pollActivityList!=null && !pollActivityList.contains(name)){
+			pollActivityList.add(0,name);
 			return true;
 		}
 		return false;

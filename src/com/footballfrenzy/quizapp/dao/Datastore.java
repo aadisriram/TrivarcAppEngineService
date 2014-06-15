@@ -5,6 +5,8 @@ import java.util.Date;
 import com.footballfrenzy.quizapp.dataobjects.Poll;
 import com.footballfrenzy.quizapp.dataobjects.Question;
 import com.footballfrenzy.quizapp.dataobjects.User;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 /*
     This is the interface that exposes the methods that the datastore provides
@@ -24,7 +26,7 @@ public interface Datastore {
 
 	public boolean addUser(User user);
 
-	public boolean doesUserExist(String userId);
+	public JSONObject doesUserExist(String userId, String name, String pollName) throws JSONException;
 
 	public boolean modifyUserData(String userId, String Name);
 
@@ -38,8 +40,10 @@ public interface Datastore {
 	
 	public boolean addPollItem(Poll poll);
 	
-	public boolean addPUserPollActivity(String userId, String category, String name);
+	public JSONObject addPUserPollActivity(String userId, String name, String option) throws JSONException;
 	
 	public boolean hasUserAttemptedPoll(String userId, String category);
+	
+	public JSONObject getPollStatus(String pollName) throws JSONException;
 
 }
