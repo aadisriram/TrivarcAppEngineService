@@ -394,7 +394,6 @@ public class DatastoreImpl implements Datastore {
 			pm = PMF.get().getPersistenceManager();
 			Query query = pm.newQuery(User.class, ":p.contains(userId)");
 			List<User>result = (List<User>) query.execute(userId);
-			pm.close();
 			if(result!=null)
 				if(result.size()>0)
 				{
